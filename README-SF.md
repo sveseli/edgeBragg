@@ -5,7 +5,7 @@
 PvaPy installation:
 
 ```sh
-conda install -c sveseli pvapy
+$ conda install -c sveseli pvapy
 ```
 
 ## Examples
@@ -15,13 +15,25 @@ conda install -c sveseli pvapy
 Terminal 1 (generate images):
 
 ```sh
-$ pvapy-ad-sim-server -cn pvapy:image -nx 128 -ny 128 -dt int16 -fps 10 -rp 10 -rt 60
+$ pvapy-ad-sim-server \
+    -cn pvapy:image \
+    -nx 128 -ny 128 -dt int16 \
+    -fps 10 -rp 10 -rt 60
 ```
 
 Terminal 2 (Bragg NN):
 
 ```sh
-$ pvapy-hpc-consumer --input-channel=pvapy:image  --output-channel=bragg:*:output --control-channel=bragg:*:control --status-channel=bragg:*:status  --processor-file=/path/to/edgeBragg/braggNNInferImageProcessor.py --processor-class=BraggNNInferImageProcessor --processor-args='{"configFile" : "/path/to/edgeBragg/config/sim.sf.yaml"}' --report-period=10 --log-level=DEBUG
+$ pvapy-hpc-consumer \
+    --input-channel=pvapy:image \
+    --output-channel=bragg:*:output \
+    --control-channel=bragg:*:control \
+    --status-channel=bragg:*:status \
+    --processor-file=/path/to/edgeBragg/braggNNInferImageProcessor.py \
+    --processor-class=BraggNNInferImageProcessor \
+    --processor-args='{"configFile" : "/path/to/edgeBragg/config/sim.sf.yaml"}' \
+    --report-period=10 \
+    --log-level=DEBUG
 ```
 
 ### Multiple Consumers
@@ -29,12 +41,26 @@ $ pvapy-hpc-consumer --input-channel=pvapy:image  --output-channel=bragg:*:outpu
 Terminal 1 (generate images):
 
 ```sh
-$ pvapy-ad-sim-server -cn pvapy:image -nx 128 -ny 128 -dt int16 -fps 10 -rp 10 -rt 60
+$ pvapy-ad-sim-server \
+    -cn pvapy:image \
+    -nx 128 -ny 128 -dt int16 \
+    -fps 10 -rp 10 -rt 60
 ```
 
 Terminal 2 (Bragg NN):
 
 ```sh
-$ pvapy-hpc-consumer --input-channel=pvapy:image  --output-channel=bragg:*:output --control-channel=bragg:*:control --status-channel=bragg:*:status  --processor-file=/path/to/edgeBragg/braggNNInferImageProcessor.py --processor-class=BraggNNInferImageProcessor --processor-args='{"configFile" : "/path/to/edgeBragg/config/sim.sf.yaml"}' --report-period=10 --log-level=DEBUG --n-consumers 4 --distributor-updates 1
+$ pvapy-hpc-consumer \
+    --input-channel=pvapy:image \
+    --output-channel=bragg:*:output \
+    --control-channel=bragg:*:control \
+    --status-channel=bragg:*:status \
+    --processor-file=/path/to/edgeBragg/braggNNInferImageProcessor.py \
+    --processor-class=BraggNNInferImageProcessor \
+    --processor-args='{"configFile" : "/path/to/edgeBragg/config/sim.sf.yaml"}' \
+    --n-consumers 4 \
+    --distributor-updates 1 \
+    --report-period=10 \
+    --log-level=DEBUG
 ```
 
