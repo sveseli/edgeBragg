@@ -1,8 +1,7 @@
 import pycuda.driver as cuda
-import tensorrt as trt
-import logging, torch
 
 def engine_build_from_onnx(onnx_mdl):
+    import tensorrt as trt
     EXPLICIT_BATCH = 1 << (int)(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
     TRT_LOGGER = trt.Logger(trt.Logger.ERROR)
     builder = trt.Builder(TRT_LOGGER)
@@ -25,6 +24,7 @@ def engine_build_from_onnx(onnx_mdl):
 
 def mem_allocation(engine):
     # Determine dimensions and create page-locked memory buffers (i.e. won't be swapped to disk) to hold host inputs/outputs.
+    import tensorrt as trt
     in_sz = trt.volume(engine.get_binding_shape(0)) * engine.max_batch_size
     h_input  = cuda.pagelocked_empty(in_sz, dtype='float32')
 
@@ -57,9 +57,12 @@ def inference(context, h_input, h_output, d_input, d_output, stream):
     return h_output
 
 def scriptpth2onnx(pth, mbsz, psz):
+    import torch
+    from pvapy.utility.loggingManager import LoggingManager
+    logger = LoggingManager.getLogger('scriptpth2onnx')
     model = torch.jit.load(pth, map_location='cpu')
     if psz != model.input_psz.item():
-        logging.error(f"The provided torchScript model is trained for patch size of {model.input_psz.item()}!")
+        logger.error(f'The provided torchScript model is trained for patch size of {model.input_psz.item()}.')
 
     dummy_input = torch.randn(mbsz, 1, psz, psz, dtype=torch.float32, device='cpu')
 
