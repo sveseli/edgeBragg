@@ -24,6 +24,7 @@ $ pvapy-ad-sim-server \
 Terminal 2 (Bragg NN):
 
 ```sh
+$ export PYTHONPATH=/path/to/edgeBragg
 $ pvapy-hpc-consumer \
     --input-channel=pvapy:image \
     --output-channel=bragg:*:output \
@@ -50,6 +51,7 @@ $ pvapy-ad-sim-server \
 Terminal 2 (Bragg NN):
 
 ```sh
+$ export PYTHONPATH=/path/to/edgeBragg
 $ pvapy-hpc-consumer \
     --input-channel=pvapy:image \
     --output-channel=bragg:*:output \
