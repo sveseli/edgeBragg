@@ -66,3 +66,9 @@ $ pvapy-hpc-consumer \
     --log-level=DEBUG
 ```
 
+In order to get consumer status at runtime use the following command:
+
+```sh
+$ pvget bragg:1:status
+```
+
